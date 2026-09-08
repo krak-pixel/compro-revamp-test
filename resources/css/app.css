@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+    display: none !important;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-white font-inter text-tvip-body antialiased;
+    }
+
+    a,
+    button,
+    input,
+    textarea {
+        @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-tvip-blue focus-visible:ring-offset-2;
+    }
+}
+
+@layer components {
+    .tvip-container {
+        @apply mx-auto w-full max-w-tvip-content px-6 md:px-8;
+    }
+
+    .tvip-field {
+        @apply block w-full rounded-tvip-button border border-tvip-outline bg-white px-4 py-3 text-base text-tvip-heading placeholder:text-tvip-body;
+    }
+
+    .tvip-field-label {
+        @apply mb-2 block text-sm font-semibold leading-5 text-tvip-heading;
+    }
+
+    .tvip-field-error {
+        @apply mt-2 text-sm font-medium leading-5 text-tvip-blue-dark;
+    }
+}
