@@ -45,8 +45,8 @@
                 Bergabunglah dengan ratusan mitra bisnis yang telah mempercayai TVIP sebagai solusi distribusi &amp; logistik terintegrasi di seluruh JABODETABEK dan Banten.
             </p>
             <div class="mt-8 flex flex-wrap justify-center gap-4">
-                <x-button size="cta" @click="$dispatch('open-contact-form')">Hubungi Sekarang</x-button>
-                <x-button href="mailto:info@tvip.co.id" variant="outline" size="cta">Kirim Email</x-button>
+                <x-button href="https://wa.me/6285217554482" target="_blank" rel="noopener noreferrer" size="cta">Hubungi Sekarang</x-button>
+                <x-button variant="outline" size="cta" @click="$dispatch('open-contact-form')">Kirim Email</x-button>
             </div>
         </x-card>
     </div>

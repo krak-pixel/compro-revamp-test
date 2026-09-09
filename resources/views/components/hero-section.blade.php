@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="flex flex-wrap items-center gap-4">
-                    <x-button href="#kontak-kami">Hubungi Kami</x-button>
+                    <x-button href="https://wa.me/6285217554482" target="_blank" rel="noopener noreferrer">Hubungi Kami</x-button>
                     <x-button href="#tentang-kami" variant="text" class="w-[200px]">Pelajari Lebih Lanjut</x-button>
                 </div>
             </div>
