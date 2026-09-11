@@ -9,6 +9,9 @@
 @layer base {
     html {
         scroll-behavior: smooth;
+        scrollbar-color: #99a1af #f3f4f6;
+        scrollbar-gutter: stable;
+        scrollbar-width: thin;
     }
 
     body {
@@ -18,8 +21,38 @@
     a,
     button,
     input,
+    select,
     textarea {
         @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-tvip-blue focus-visible:ring-offset-2;
+    }
+
+    button:not(:disabled),
+    select:not(:disabled) {
+        cursor: pointer;
+    }
+
+    button:disabled,
+    select:disabled {
+        cursor: not-allowed;
+    }
+
+    *::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    *::-webkit-scrollbar-track {
+        background: #f3f4f6;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        border: 2px solid #f3f4f6;
+        border-radius: 9999px;
+        background: #99a1af;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+        background: #6a7282;
     }
 }
 
@@ -38,5 +71,29 @@
 
     .tvip-field-error {
         @apply mt-2 text-sm font-medium leading-5 text-tvip-blue-dark;
+    }
+
+    .career-control {
+        @apply h-[42px] w-full rounded-tvip-button border border-tvip-divider bg-white px-4 text-sm leading-5 text-tvip-heading placeholder:text-tvip-placeholder hover:border-tvip-outline focus:border-tvip-blue focus:ring-1 focus:ring-tvip-blue;
+    }
+
+    .career-hero-wave {
+        position: absolute;
+        right: -5%;
+        bottom: -1px;
+        left: -5%;
+        height: 54px;
+        border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        background: white;
+    }
+
+    .career-layer-enter {
+        @apply transition duration-200 ease-out motion-reduce:transition-none;
+    }
+}
+
+@media (forced-colors: active) {
+    html {
+        scrollbar-color: auto;
     }
 }
