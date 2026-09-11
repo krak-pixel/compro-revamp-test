@@ -8,6 +8,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Tidak ada data awal untuk fase Home.
+        $this->call(CareerSeeder::class);
     }
 }

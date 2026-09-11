@@ -2,23 +2,31 @@
 
 ## Source of Truth
 
-1. Figma MCP file `DoumhkxHYEpvTYrLffAv6V`
-2. `DESIGN-FIGMA.md`
-3. `PRD.md`
+1. Figma MCP file `yn2rF2dwEivl7pQow9EBXp`
+2. `DESIGN.md` dan `DESIGN-FIGMA-KARIR-V2.md`
+3. `PRD-KARIR-V2.md`
 
-Node yang diverifikasi:
+Node Karir yang diverifikasi:
 
-- Navigation `343:1012`
-- HeroSection `343:781`
-- VisionMissionSection `343:811`
-- ContactSection `343:896`
-- Footer `343:941`
+- Guest Career `1:756`
+- Authenticated Career `1:1153`
+- Login `1:105`
+- Register `1:152`
+- Poster modal `1:1563`
+- Detail drawer `1:1974`
+- Apply preview `1:2457`
+- Send CV preview `1:2936`
 
 ## Keputusan Implementasi
 
 - Halaman Home menggunakan satu route `/`.
 - `#tentang-kami` dan `#kontak-kami` memakai `scroll-margin-top: 64px` melalui class `scroll-mt-16`.
-- Route Karir belum dibuat. Link ditampilkan dalam keadaan nonaktif.
+- Route Karir dan link shared navigation/footer sudah aktif.
+- Daftar lowongan memakai database, server-side filter, URL state, dan pagination enam item per halaman.
+- Registrasi diarahkan ke login manual sesuai keputusan produk.
+- Profil, upload CV, dan submission tidak dibuat pada V2; preview drawer disabled menjelaskan dependency V3.
+- Panel HR tidak dibuat pada V2 dan menjadi scope V4.
+- Native `<select>` dipilih secara sadar karena popup platform dapat diterima dan tidak ada primitive listbox canonical di V1.
 - CTA `Hubungi Sekarang` membuka modal form kontak. Modal tidak mengubah tampilan default Figma sebelum pengguna berinteraksi.
-- Link sosial dan legal memakai placeholder karena URL final tidak tersedia pada sumber.
+- Link sosial dan legal yang belum memiliki URL ditampilkan sebagai teks non-interaktif, bukan tautan palsu.
 - Seluruh aset visual disimpan permanen dalam project.
