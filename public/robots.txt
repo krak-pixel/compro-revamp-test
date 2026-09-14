@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tvip.co.id/sitemap.xml
