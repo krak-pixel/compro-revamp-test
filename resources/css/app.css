@@ -90,7 +90,89 @@
     .career-layer-enter {
         @apply transition duration-200 ease-out motion-reduce:transition-none;
     }
+
+    .candidate-tab {
+        @apply relative inline-flex min-h-12 items-center border-b-2 border-transparent px-1 text-sm font-medium text-tvip-muted;
+    }
+
+    .candidate-tab-active {
+        @apply border-tvip-blue font-semibold text-tvip-blue;
+    }
+
+    .candidate-stepper {
+        @apply mb-8 flex items-start overflow-x-auto px-2 pb-3 pt-5;
+    }
+
+    .candidate-step-item {
+        @apply flex min-w-[148px] flex-1 items-start;
+    }
+
+    .candidate-step-item:last-child {
+        @apply min-w-24 flex-none;
+    }
+
+    .candidate-step {
+        @apply flex w-24 shrink-0 flex-col items-center gap-2 text-center;
+    }
+
+    .candidate-step-circle {
+        @apply inline-flex size-10 items-center justify-center rounded-full bg-tvip-divider text-sm font-semibold text-tvip-muted;
+    }
+
+    .candidate-step-current {
+        @apply bg-tvip-blue text-white shadow-tvip-active;
+    }
+
+    .candidate-step-complete {
+        @apply bg-tvip-success-bright text-white;
+    }
+
+    .candidate-step-label {
+        @apply text-xs font-medium leading-5 text-tvip-muted;
+    }
+
+    .candidate-step-line {
+        @apply mt-5 h-0.5 min-w-10 flex-1;
+    }
+
+    .candidate-choice {
+        @apply flex min-h-24 cursor-pointer items-start gap-3 rounded-tvip-button border border-tvip-divider p-4 hover:border-tvip-outline;
+    }
+
+    .candidate-choice-active {
+        @apply border-tvip-blue bg-tvip-info-bg;
+    }
+
+    .candidate-summary-section {
+        @apply rounded-tvip-button border border-tvip-divider p-5;
+    }
+
+    .candidate-summary-heading {
+        @apply mb-5 flex items-center justify-between border-b border-tvip-divider pb-3;
+    }
+
+    .candidate-summary-heading h2 {
+        @apply text-base font-semibold text-tvip-heading;
+    }
+
+    .candidate-summary-heading a,
+    .candidate-summary-grid a {
+        @apply inline-flex min-h-8 items-center text-sm font-semibold text-tvip-blue hover:underline;
+    }
+
+    .candidate-summary-grid {
+        @apply grid gap-x-8 gap-y-5 sm:grid-cols-2;
+    }
+
+    .candidate-summary-grid dt {
+        @apply text-xs leading-5 text-tvip-muted;
+    }
+
+    .candidate-summary-grid dd {
+        @apply mt-1 whitespace-pre-line break-words text-sm font-medium leading-6 text-tvip-heading;
+    }
 }
+
 
 @media (forced-colors: active) {
     html {

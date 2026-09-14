@@ -6,7 +6,9 @@ use App\Models\Department;
 use App\Models\Job;
 use App\Models\Location;
 use App\Models\Position;
+use App\Services\CandidateEligibilityService;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\View\View;
@@ -23,13 +25,27 @@ class CareerController extends Controller
         return $this->renderCareerPage($request, $this->findVisibleJob($slug), 'detail');
     }
 
-    public function apply(Request $request, string $slug): View
+    public function apply(Request $request, string $slug, CandidateEligibilityService $eligibility): View|RedirectResponse
     {
-        return $this->renderCareerPage($request, $this->findVisibleJob($slug), 'apply');
+        $job = $this->findVisibleJob($slug);
+
+        if (! $eligibility->isComplete($request->user())) {
+            $request->session()->put('career.intended', route('career.apply', ['slug' => $slug]));
+
+            return redirect()->route('career.profile')->with('warning', 'Lengkapi profil sebelum melamar posisi '.$job->title.'.');
+        }
+
+        return $this->renderCareerPage($request, $job, 'apply');
     }
 
-    public function sendCv(Request $request): View
+    public function sendCv(Request $request, CandidateEligibilityService $eligibility): View|RedirectResponse
     {
+        if (! $eligibility->isComplete($request->user())) {
+            $request->session()->put('career.intended', route('career.send-cv'));
+
+            return redirect()->route('career.profile')->with('warning', 'Lengkapi profil sebelum mengirim CV ke talent pool.');
+        }
+
         return $this->renderCareerPage($request, null, 'send-cv');
     }
 
@@ -112,6 +128,9 @@ class CareerController extends Controller
             'selectedJob' => $selectedJob,
             'drawerMode' => $drawerMode,
             'listUrl' => route('career.index', array_filter($queryParams, fn ($value) => filled($value))),
+            'candidateProfile' => $request->user()?->candidateProfile()->with('educations')->first(),
+            'candidatePhoto' => $request->user()?->activeDocument('photo'),
+            'candidateCv' => $request->user()?->activeDocument('cv'),
         ]);
     }
 }

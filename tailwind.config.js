@@ -17,6 +17,7 @@ export default {
                 'tvip-strong': '#1e2939',
                 'tvip-body': '#4a5565',
                 'tvip-nav': '#364153',
+                'tvip-label': '#364153',
                 'tvip-muted': '#6a7282',
                 'tvip-placeholder': '#717182',
                 'tvip-disabled': '#99a1af',
@@ -41,6 +42,15 @@ export default {
                 'tvip-badge-indigo': '#432dd7',
                 'tvip-badge-orange-bg': '#ffedd4',
                 'tvip-badge-orange': '#ca3500',
+                'tvip-success': '#008236',
+                'tvip-success-bright': '#00c950',
+                'tvip-success-bg': '#f0fdf4',
+                'tvip-success-border': '#b9f8cf',
+                'tvip-info-bg': '#eff6ff',
+                'tvip-info-border': '#bedbff',
+                'tvip-warning': '#a65f00',
+                'tvip-warning-bg': '#fefce8',
+                'tvip-warning-border': '#fff085',
             },
             fontFamily: {
                 inter: ['Inter', 'sans-serif'],
@@ -72,6 +82,7 @@ export default {
             },
             maxWidth: {
                 'tvip-content': '1280px',
+                'tvip-profile': '1024px',
             },
             zIndex: {
                 nav: '400',

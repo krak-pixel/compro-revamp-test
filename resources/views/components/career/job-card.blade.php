@@ -36,7 +36,7 @@
             <a href="{{ route('career.show', $detailParameters) }}" class="rounded-sm hover:text-tvip-blue">{{ $job->title }}</a>
         </h2>
 
-        <x-career.job-metadata :job="$job" class="my-5" />
+        <x-career.job-metadata :job="$job" class="my-4" />
 
         <a href="{{ route('career.apply', $detailParameters) }}" class="mt-auto inline-flex h-[42px] w-full items-center justify-center rounded-tvip-button-lg bg-tvip-primary px-6 text-sm font-medium text-white transition hover:opacity-90 active:translate-y-px">
             Lamar

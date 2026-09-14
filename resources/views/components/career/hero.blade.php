@@ -43,6 +43,7 @@
                         <span class="block truncate text-xs leading-4 text-white/70">{{ auth()->user()->email }}</span>
                     </span>
                     <span class="h-8 w-px bg-white/20" aria-hidden="true"></span>
+                    <a href="{{ route('career.profile') }}" class="inline-flex min-h-10 items-center rounded-md px-2 text-xs font-semibold text-white hover:bg-white/10">Profil Saya</a>
                     <form action="{{ route('career.logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="inline-flex min-h-10 items-center gap-2 rounded-md px-2 text-xs font-medium text-white/90 hover:bg-white/10 hover:text-white">

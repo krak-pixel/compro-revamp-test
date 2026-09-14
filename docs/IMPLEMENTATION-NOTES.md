@@ -30,3 +30,12 @@ Node Karir yang diverifikasi:
 - CTA `Hubungi Sekarang` membuka modal form kontak. Modal tidak mengubah tampilan default Figma sebelum pengguna berinteraksi.
 - Link sosial dan legal yang belum memiliki URL ditampilkan sebagai teks non-interaktif, bukan tautan palsu.
 - Seluruh aset visual disimpan permanen dalam project.
+# Versi 3 — Profil Kandidat dan Lamaran
+
+- Menambahkan wizard profil kandidat empat langkah, ringkasan read-only, mode edit per langkah, serta riwayat lamaran.
+- Menambahkan model dan migration additive untuk profil, dokumen privat, pendidikan, pengalaman kerja, dan aplikasi.
+- NIK memakai encrypted cast. Dokumen tidak disimpan di `public/`; akses melewati route auth dan policy pemilik.
+- Mengaktifkan drawer lamaran spesifik dan talent pool dengan validasi kelengkapan profil serta deduplication key.
+- Status awal aplikasi adalah `pending` dan ditampilkan sebagai **Menunggu**. Pemrosesan oleh HR tetap scope V4.
+- `scan_status` dokumen dimulai sebagai `pending_scan`; integrasi antivirus/object storage production masih membutuhkan keputusan infrastruktur.
+- Field identitas sensitif mengikuti Figma/PRD, tetapi production release tetap memerlukan persetujuan HR/legal mengenai tujuan, retensi, akses, dan consent copy.

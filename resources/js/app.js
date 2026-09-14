@@ -87,6 +87,7 @@ Alpine.data('careerPage', (options = {}) => ({
     listUrl: options.listUrl || '/karir',
     searchQuery: options.searchQuery || '',
     returnFocusTarget: null,
+    submittingApplication: false,
 
     init() {
         this.$watch('activePoster', () => this.syncScrollLock());
@@ -165,6 +166,83 @@ Alpine.data('careerPage', (options = {}) => ({
             event.preventDefault();
             first.focus();
         }
+    },
+}));
+
+Alpine.data('candidateProfile', () => ({
+    submitting: false,
+    dirty: false,
+    init() {
+        this.$nextTick(() => this.$root.querySelector('[aria-invalid="true"]')?.focus());
+    },
+    warnIfDirty(event) {
+        if (!this.dirty || this.submitting) return;
+        event.preventDefault();
+        event.returnValue = '';
+    },
+}));
+
+Alpine.data('filePicker', () => ({
+    fileName: '',
+    select(event) {
+        const file = event.target.files?.[0];
+        this.fileName = file?.name || '';
+    },
+}));
+
+const clientKey = () => globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`;
+
+Alpine.data('educationStep', (initial = []) => ({
+    submitting: false,
+    liveMessage: '',
+    colleges: initial.map((college) => ({ ...college, key: clientKey() })),
+    addCollege() {
+        if (this.colleges.length >= 4) return;
+        this.colleges.push({
+            key: clientKey(), id: '', institution_name: '', degree: '',
+            field_of_study: '', start_year: '', end_year: '', final_score: '',
+        });
+        this.liveMessage = `Pendidikan ${this.colleges.length} ditambahkan.`;
+        this.$nextTick(() => {
+            const groups = this.$root.querySelectorAll('fieldset');
+            groups[groups.length - 1]?.querySelector('select, input')?.focus();
+        });
+    },
+    removeCollege(index) {
+        this.colleges.splice(index, 1);
+        this.liveMessage = 'Data pendidikan dihapus dari formulir. Perubahan tersimpan setelah formulir dikirim.';
+    },
+}));
+
+Alpine.data('experienceStep', (initialStatus = 'fresh_graduate', initial = []) => ({
+    submitting: false,
+    liveMessage: '',
+    status: initialStatus,
+    works: initial.map((work) => ({ ...work, key: clientKey() })),
+    blankWork() {
+        return {
+            key: clientKey(), id: '', company_name: '', initial_position: '', final_position: '',
+            initial_started_at: '', initial_ended_at: '', initial_responsibilities: '',
+            final_started_at: '', final_ended_at: '', final_responsibilities: '', is_current: false, resign_year: '',
+            last_salary: '', resign_reason: '', expected_salary: '', company_phone: '',
+            supervisor_name: '', supervisor_phone: '',
+        };
+    },
+    ensureWork() {
+        if (this.works.length === 0) this.works.push(this.blankWork());
+    },
+    addWork() {
+        if (this.works.length >= 3) return;
+        this.works.push(this.blankWork());
+        this.liveMessage = `Perusahaan ${this.works.length} ditambahkan.`;
+    },
+    removeWork(index) {
+        if (this.works.length <= 1) return;
+        this.works.splice(index, 1);
+        this.liveMessage = 'Data perusahaan dihapus dari formulir. Perubahan tersimpan setelah formulir dikirim.';
+    },
+    init() {
+        if (this.status === 'experienced') this.ensureWork();
     },
 }));
 

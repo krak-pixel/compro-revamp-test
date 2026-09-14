@@ -1,4 +1,8 @@
-@props(['mode', 'job' => null, 'listUrl', 'queryParams' => []])
+@props([
+    'mode', 'job' => null, 'listUrl', 'queryParams' => [],
+    'departments' => collect(), 'positions' => collect(), 'locations' => collect(),
+    'candidateProfile' => null, 'candidatePhoto' => null, 'candidateCv' => null,
+])
 
 @php
     $departmentTone = $job ? match ($job->department->slug) {
@@ -69,43 +73,63 @@
         @if ($isSendCv)
             <header class="pr-12">
                 <h2 id="career-drawer-title" class="text-xl font-bold leading-7 text-tvip-blue">Kirim CV Sekarang</h2>
-                <p id="career-drawer-description" class="mt-2 text-sm leading-5 text-tvip-muted">Preview akun kandidat dan informasi peluang yang diminati</p>
+                <p id="career-drawer-description" class="mt-2 text-sm leading-5 text-tvip-muted">Pilih peluang yang diminati lalu kirim profil Anda ke talent pool.</p>
             </header>
 
             <section class="mt-6 rounded-tvip-candidate border border-tvip-divider bg-tvip-surface p-5" aria-label="Preview kandidat">
                 <div class="flex items-center gap-4">
-                    <span class="inline-flex size-16 shrink-0 items-center justify-center rounded-tvip-button border-2 border-tvip-outline bg-white">
-                        <img src="{{ asset('images/tvip/career/icon-profile.svg') }}" alt="" aria-hidden="true" class="size-8">
+                    <span class="inline-flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-tvip-button border-2 border-tvip-outline bg-white">
+                        @if ($candidatePhoto)
+                            <img src="{{ route('career.documents.show', $candidatePhoto) }}" alt="Foto {{ $candidateProfile->full_name }}" width="64" height="64" class="h-full w-full object-cover">
+                        @else
+                            <img src="{{ asset('images/tvip/career/icon-profile.svg') }}" alt="" aria-hidden="true" class="size-8">
+                        @endif
                     </span>
                     <div class="min-w-0">
-                        <h3 class="truncate text-base font-semibold leading-[26px] text-tvip-heading">{{ auth()->user()->display_name }}</h3>
+                        <h3 class="truncate text-base font-semibold leading-[26px] text-tvip-heading">{{ $candidateProfile->full_name }}</h3>
                         <p class="truncate text-sm leading-5 text-tvip-muted">{{ auth()->user()->email }}</p>
                     </div>
                 </div>
 
                 <dl class="mt-5 grid grid-cols-2 gap-x-6 gap-y-4 text-sm leading-5">
-                    @foreach ([['No. Telepon', 'Belum dilengkapi'], ['Tempat Tinggal', 'Belum dilengkapi'], ['Status', 'Belum dilengkapi'], ['Pendidikan', 'Belum dilengkapi']] as [$label, $value])
+                    @foreach ([['No. Telepon', $candidateProfile->phone], ['Tempat Tinggal', $candidateProfile->residence_city], ['Status', $candidateProfile->experience_status === 'experienced' ? 'Berpengalaman' : 'Fresh Graduate'], ['Pendidikan', $candidateProfile->educations->last()?->institution_name]] as [$label, $value])
                         <div>
                             <dt class="text-tvip-muted">{{ $label }}</dt>
-                            <dd class="mt-0.5 font-medium text-tvip-heading">{{ $value }}</dd>
+                            <dd class="mt-0.5 font-medium text-tvip-heading">{{ $value ?: 'Belum dilengkapi' }}</dd>
                         </div>
                     @endforeach
                 </dl>
             </section>
 
-            <section class="mt-6" aria-labelledby="interest-title">
+            <form id="talent-pool-form" method="POST" action="{{ route('career.applications.talent-pool') }}" class="mt-6" novalidate x-data="{ department: {{ Illuminate\Support\Js::from((string) old('department_id')) }} }" @submit="submittingApplication = true">
+                @csrf
+            <section aria-labelledby="interest-title">
                 <h3 id="interest-title" class="text-base font-semibold leading-[26px] text-tvip-heading">Informasi Posisi yang Diminati</h3>
                 <div class="mt-4 space-y-4">
-                    @foreach ([['Departemen', 'Pilih departemen'], ['Posisi', 'Pilih posisi'], ['Lokasi', 'Pilih lokasi']] as [$label, $placeholder])
-                        <label class="block text-sm font-medium leading-5 text-tvip-label">
-                            {{ $label }} <span class="text-tvip-required" aria-hidden="true">*</span>
-                            <select class="career-control mt-2 opacity-60" disabled aria-describedby="v3-notice">
-                                <option>{{ $placeholder }}</option>
-                            </select>
-                        </label>
-                    @endforeach
+                    <label class="block text-sm font-medium leading-5 text-tvip-label">Departemen <span class="text-tvip-required" aria-hidden="true">*</span>
+                        <select name="department_id" x-model="department" @change="$refs.position.value = ''" class="career-control mt-2" required aria-invalid="{{ $errors->has('department_id') ? 'true' : 'false' }}">
+                            <option value="">Pilih departemen</option>
+                            @foreach($departments as $department)<option value="{{ $department->id }}" @selected((string)old('department_id') === (string)$department->id)>{{ $department->name }}</option>@endforeach
+                        </select>
+                        @error('department_id')<span class="mt-1 block text-xs font-medium text-tvip-required">{{ $message }}</span>@enderror
+                    </label>
+                    <label class="block text-sm font-medium leading-5 text-tvip-label">Posisi <span class="text-tvip-required" aria-hidden="true">*</span>
+                        <select x-ref="position" name="position_id" class="career-control mt-2" required aria-invalid="{{ $errors->has('position_id') ? 'true' : 'false' }}">
+                            <option value="">Pilih posisi</option>
+                            @foreach($positions as $position)<option value="{{ $position->id }}" :disabled="department && department !== '{{ $position->department_id }}'" @selected((string)old('position_id') === (string)$position->id)>{{ $position->name }}</option>@endforeach
+                        </select>
+                        @error('position_id')<span class="mt-1 block text-xs font-medium text-tvip-required">{{ $message }}</span>@enderror
+                    </label>
+                    <label class="block text-sm font-medium leading-5 text-tvip-label">Lokasi <span class="text-tvip-required" aria-hidden="true">*</span>
+                        <select name="location_id" class="career-control mt-2" required aria-invalid="{{ $errors->has('location_id') ? 'true' : 'false' }}">
+                            <option value="">Pilih lokasi</option>
+                            @foreach($locations as $location)<option value="{{ $location->id }}" @selected((string)old('location_id') === (string)$location->id)>{{ $location->name }}</option>@endforeach
+                        </select>
+                        @error('location_id')<span class="mt-1 block text-xs font-medium text-tvip-required">{{ $message }}</span>@enderror
+                    </label>
                 </div>
             </section>
+            </form>
         @elseif ($job)
             <header class="pr-12">
                 <h2 id="career-drawer-title" class="text-xl font-bold leading-7 text-tvip-blue">{{ $isApply ? 'Konfirmasi Lamaran' : 'Job Detail' }}</h2>
@@ -139,12 +163,15 @@
                     @endforeach
                 </ul>
             </section>
-        @endif
 
-        @if ($isApply || $isSendCv)
-            <div id="v3-notice" class="mt-6 rounded-tvip-button border border-tvip-badge-blue bg-tvip-badge-blue-bg px-4 py-3 text-sm leading-5 text-tvip-blue" role="note">
-                Pelengkapan profil, upload CV, dan pengiriman lamaran akan tersedia pada Versi 3.
-            </div>
+            @if ($isApply)
+                <section class="mt-6 rounded-tvip-button border border-tvip-success-border bg-tvip-success-bg p-4" aria-labelledby="application-ready-title">
+                    <h3 id="application-ready-title" class="text-sm font-semibold text-tvip-success">Profil siap dikirim</h3>
+                    <p class="mt-1 text-sm leading-5 text-tvip-body">Lamaran menggunakan profil terbaru {{ $candidateProfile->full_name }} dan CV {{ $candidateCv->original_name }}.</p>
+                    <a href="{{ route('career.profile') }}" class="mt-2 inline-flex min-h-8 items-center text-xs font-semibold text-tvip-blue hover:underline">Tinjau profil</a>
+                </section>
+                <form id="job-application-form" method="POST" action="{{ route('career.applications.job', ['slug' => $job->slug]) }}" @submit="submittingApplication = true">@csrf</form>
+            @endif
         @endif
     </div>
 
@@ -154,7 +181,7 @@
         @else
             <div class="grid grid-cols-2 gap-4">
                 <a href="{{ $listUrl }}" class="inline-flex h-11 items-center justify-center rounded-tvip-button border border-tvip-divider text-sm font-medium text-tvip-heading hover:bg-tvip-surface">Batal</a>
-                <button type="button" class="h-11 rounded-tvip-button bg-tvip-blue px-4 text-sm font-medium text-white opacity-50" disabled aria-describedby="v3-notice">Lamar Sekarang</button>
+                <button type="submit" form="{{ $isSendCv ? 'talent-pool-form' : 'job-application-form' }}" :disabled="submittingApplication" :aria-busy="submittingApplication" class="h-11 rounded-tvip-button bg-tvip-blue px-4 text-sm font-medium text-white hover:bg-tvip-blue-dark disabled:opacity-60" x-text="submittingApplication ? 'Mengirim…' : '{{ $isSendCv ? 'Kirim CV' : 'Lamar Sekarang' }}'"></button>
             </div>
         @endif
     </footer>

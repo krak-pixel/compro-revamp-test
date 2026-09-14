@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\CandidateAuthController;
+use App\Http\Controllers\CandidateApplicationController;
+use App\Http\Controllers\CandidateDocumentController;
+use App\Http\Controllers\CandidateProfileController;
 use App\Http\Controllers\CareerController;
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\SitemapController;
@@ -27,6 +30,25 @@ Route::middleware('guest')->controller(CandidateAuthController::class)->group(fu
 Route::post('/karir/logout', [CandidateAuthController::class, 'logout'])
     ->middleware('auth')
     ->name('career.logout');
+
+Route::middleware('auth')->group(function (): void {
+    Route::get('/karir/profile', [CandidateProfileController::class, 'show'])
+        ->name('career.profile');
+    Route::get('/karir/profile/steps/{step}', [CandidateProfileController::class, 'show'])
+        ->whereNumber('step')
+        ->name('career.profile.step');
+    Route::put('/karir/profile/steps/{step}', [CandidateProfileController::class, 'store'])
+        ->whereNumber('step')
+        ->name('career.profile.store');
+    Route::get('/karir/documents/{document}', CandidateDocumentController::class)
+        ->name('career.documents.show');
+    Route::post('/karir/{slug}/apply', [CandidateApplicationController::class, 'storeJob'])
+        ->middleware('throttle:10,1')
+        ->name('career.applications.job');
+    Route::post('/karir/kirim-cv', [CandidateApplicationController::class, 'storeTalentPool'])
+        ->middleware('throttle:10,1')
+        ->name('career.applications.talent-pool');
+});
 
 Route::controller(CareerController::class)->group(function (): void {
     Route::get('/karir', 'index')->name('career.index');

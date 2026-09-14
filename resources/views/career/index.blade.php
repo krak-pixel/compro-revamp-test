@@ -109,7 +109,7 @@
             <div class="flex min-h-[186px] flex-col justify-between gap-8 rounded-tvip-card-lg bg-tvip-primary px-7 py-9 text-white shadow-tvip-cta sm:px-12 sm:py-10 lg:flex-row lg:items-center">
                 <div>
                     <h2 id="career-cta-title" class="text-[22px] font-bold leading-9">Tidak Menemukan Posisi yang Cocok?</h2>
-                    <p class="mt-2 max-w-2xl text-sm leading-6 text-tvip-on-dark-muted">Kirimkan CV dan portofolio Anda ke tim HR TVIP. Fitur pengiriman akan tersedia pada Versi 3.</p>
+                    <p class="mt-2 max-w-2xl text-sm leading-6 text-tvip-on-dark-muted">Kirimkan profil dan CV Anda ke talent pool TVIP agar dapat dipertimbangkan untuk peluang berikutnya.</p>
                 </div>
                 <a href="{{ route('career.send-cv') }}" class="inline-flex min-h-12 shrink-0 items-center justify-center rounded-tvip-button-lg bg-white px-8 text-sm font-semibold text-tvip-blue hover:bg-tvip-surface">Kirim CV Sekarang</a>
             </div>
@@ -118,7 +118,18 @@
         <x-career.poster-modal />
 
         @if ($drawerMode)
-            <x-career.drawer :mode="$drawerMode" :job="$selectedJob" :list-url="$listUrl" :query-params="$queryParams" />
+            <x-career.drawer
+                :mode="$drawerMode"
+                :job="$selectedJob"
+                :list-url="$listUrl"
+                :query-params="$queryParams"
+                :departments="$departments"
+                :positions="$positions"
+                :locations="$locations"
+                :candidate-profile="$candidateProfile"
+                :candidate-photo="$candidatePhoto"
+                :candidate-cv="$candidateCv"
+            />
         @endif
     </div>
 </x-layouts.app>

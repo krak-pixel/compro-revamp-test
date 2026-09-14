@@ -63,7 +63,7 @@ class CareerPageTest extends TestCase
             ->assertRedirect(route('login'));
     }
 
-    public function test_authenticated_candidate_sees_the_v3_notice_in_apply_preview(): void
+    public function test_incomplete_candidate_is_redirected_to_the_v3_profile_before_applying(): void
     {
         $user = User::create([
             'name' => 'Rina Kandidat',
@@ -73,10 +73,8 @@ class CareerPageTest extends TestCase
 
         $this->actingAs($user)
             ->get(route('career.apply', ['slug' => 'kepala-depo']))
-            ->assertOk()
-            ->assertSee('Konfirmasi Lamaran')
-            ->assertSee('akan tersedia pada Versi 3')
-            ->assertSee('disabled', false);
+            ->assertRedirect(route('career.profile'))
+            ->assertSessionHas('warning');
     }
 
     public function test_expired_job_is_not_publicly_listed_or_accessible(): void

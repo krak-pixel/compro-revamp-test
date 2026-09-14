@@ -27,7 +27,7 @@
             {{ $slot }}
 
             <p class="mt-5 text-center text-xs leading-5 text-white/60">
-                Kebijakan privasi kandidat akan dipublikasikan sebelum fitur pengiriman CV pada Versi 3.
+                Data kandidat digunakan untuk proses rekrutmen dan disimpan secara privat sesuai kebijakan perusahaan.
             </p>
         </div>
     </main>
