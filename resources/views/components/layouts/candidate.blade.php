@@ -5,6 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{ asset('images/tvip/logo-tvip-favicon.svg') }}" type="image/svg+xml">
     <title>{{ $title }}</title>
     <meta name="description" content="Lengkapi profil kandidat dan pantau riwayat lamaran TVIP Karir.">
     <meta name="robots" content="noindex, nofollow">
@@ -21,9 +22,6 @@
                     <p class="truncate text-lg font-bold leading-6 text-tvip-blue sm:text-xl">Form Kandidat</p>
                     <p class="hidden truncate text-sm leading-5 text-tvip-muted sm:block">Lengkapi data diri Anda untuk melamar pekerjaan</p>
                 </div>
-            </div>
-            <div class="flex items-center gap-3">
-                <span class="hidden max-w-52 truncate text-sm text-tvip-body sm:block">{{ auth()->user()->display_name }}</span>
             </div>
         </div>
     </header>

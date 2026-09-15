@@ -35,7 +35,7 @@
                 </div>
             @else
                 <div class="mt-7 inline-flex max-w-full items-center gap-3 rounded-tvip-button border border-white/15 bg-white/10 px-4 py-3 shadow-tvip-job backdrop-blur-sm">
-                    <a href="{{ route('career.profile') }}" class="flex min-w-0 items-center gap-3 rounded-md p-3 hover:bg-white/10" aria-label="Buka profil saya">
+                    <a href="{{ route('career.profile') }}" class="flex min-w-0 items-center gap-3 rounded-md px-2 py-2 hover:bg-white/10" aria-label="Buka profil saya">
                         <span class="inline-flex size-9 shrink-0 items-center justify-center rounded-tvip-full bg-white">
                             <img src="{{ asset('images/tvip/career/icon-profile.svg') }}" alt="" aria-hidden="true" class="size-5">
                         </span>
