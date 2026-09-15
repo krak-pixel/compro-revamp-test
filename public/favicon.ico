@@ -1,0 +1,5 @@
+<link
+    rel="icon"
+    type="image/png"
+    href="{{ asset('images/tvip/logo-tvip-3d.png') }}"
+>

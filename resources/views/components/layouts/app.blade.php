@@ -11,6 +11,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
     <title>{{ $title }}</title>
     <meta name="description" content="{{ $description }}">
@@ -31,7 +32,7 @@
     {{ $head ?? '' }}
 </head>
 <body
-    x-data="tvipPage({ openContactOnLoad: {{ $currentPage === 'home' && $errors->any() ? 'true' : 'false' }} })"
+    x-data="tvipPage({ openContactOnLoad: {{ $currentPage === 'home' && isset($errors) && $errors->any() ? 'true' : 'false' }} })"
     @open-contact-form.window="openContactForm()"
     class="min-h-screen bg-white"
 >

@@ -11,7 +11,7 @@
     @keydown.tab="trapFocus($event, $refs.contactModal)"
     @click.self="closeContactForm()"
 >
-    <x-card variant="cta" class="relative z-10 max-h-[calc(100vh-48px)] w-full max-w-3xl overflow-y-auto p-6 md:p-8" @click.stop>
+    <x-card variant="cta" class="relative z-10 max-h-[calc(100vh-48px)] w-full max-w-3xl overflow-y-auto p-6 md:p-8" x-on:click.stop="">
         <div class="flex items-start justify-between gap-6">
             <div>
                 <h2 id="contact-form-title" class="text-[30px] font-bold leading-9 text-tvip-heading">Kirim Pesan kepada TVIP</h2>
