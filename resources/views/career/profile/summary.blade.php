@@ -4,7 +4,6 @@
         <h1 class="mt-3 text-xl font-semibold text-tvip-heading">Formulir Kandidat</h1>
         <p class="mt-1 text-sm leading-6 text-tvip-muted">Data ini akan digunakan saat Anda mengirim lamaran.</p>
     </div>
-    <a href="{{ route('career.profile.step', ['step' => 1]) }}" class="inline-flex min-h-11 items-center justify-center rounded-tvip-button border border-tvip-blue px-5 text-sm font-semibold text-tvip-blue hover:bg-tvip-info-bg">Edit Profil</a>
 </header>
 
 <div class="mt-7 space-y-5">
@@ -66,5 +65,6 @@
 </div>
 
 <div class="mt-7 flex flex-col gap-3 border-t border-tvip-divider pt-6 sm:flex-row sm:justify-end">
+    <a href="{{ route('career.profile.step', ['step' => 1]) }}" class="inline-flex min-h-11 items-center justify-center rounded-tvip-button border border-tvip-blue px-5 text-sm font-semibold text-tvip-blue hover:bg-tvip-info-bg">Edit Profil</a>
     <a href="{{ route('career.index') }}" class="inline-flex min-h-11 items-center justify-center rounded-tvip-button bg-tvip-blue px-6 text-sm font-semibold text-white hover:bg-tvip-blue-dark">Lihat Lowongan</a>
 </div>

@@ -35,15 +35,15 @@
                 </div>
             @else
                 <div class="mt-7 inline-flex max-w-full items-center gap-3 rounded-tvip-button border border-white/15 bg-white/10 px-4 py-3 shadow-tvip-job backdrop-blur-sm">
-                    <span class="inline-flex size-9 shrink-0 items-center justify-center rounded-tvip-full bg-white">
-                        <img src="{{ asset('images/tvip/career/icon-profile.svg') }}" alt="" aria-hidden="true" class="size-5">
-                    </span>
-                    <span class="min-w-0">
-                        <strong class="block truncate text-sm font-semibold leading-5 text-white">{{ auth()->user()->display_name }}</strong>
-                        <span class="block truncate text-xs leading-4 text-white/70">{{ auth()->user()->email }}</span>
-                    </span>
-                    <span class="h-8 w-px bg-white/20" aria-hidden="true"></span>
-                    <a href="{{ route('career.profile') }}" class="inline-flex min-h-10 items-center rounded-md px-2 text-xs font-semibold text-white hover:bg-white/10">Profil Saya</a>
+                    <a href="{{ route('career.profile') }}" class="flex min-w-0 items-center gap-3 rounded-md p-3 hover:bg-white/10" aria-label="Buka profil saya">
+                        <span class="inline-flex size-9 shrink-0 items-center justify-center rounded-tvip-full bg-white">
+                            <img src="{{ asset('images/tvip/career/icon-profile.svg') }}" alt="" aria-hidden="true" class="size-5">
+                        </span>
+                        <span class="min-w-0">
+                            <strong class="block truncate text-sm font-semibold leading-5 text-white">{{ auth()->user()->display_name }}</strong>
+                            <span class="block truncate text-xs leading-4 text-white/70">{{ auth()->user()->email }}</span>
+                        </span>
+                    </a>
                     <form action="{{ route('career.logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="inline-flex min-h-10 items-center gap-2 rounded-md px-2 text-xs font-medium text-white/90 hover:bg-white/10 hover:text-white">
